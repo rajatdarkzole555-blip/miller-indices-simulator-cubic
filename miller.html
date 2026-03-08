@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Miller Indices</title>
+     <link rel="stylesheet" href="style.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <style>
+        body { 
+            margin: 0; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            font-family: 'Book Antiqua', Palatino, serif; 
+            background-color: #fafafa; 
+            padding-top: 40px; 
+        }
+
+        .controls-container { 
+            display: flex; 
+            gap: 40px; 
+            background: #ffffff; 
+            padding: 30px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+            margin-bottom: 24px;
+        }
+
+        .input-group { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center;
+        }
+
+        .input-group span { 
+            margin-bottom: 16px; 
+            font-size: 15px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #888;
+        }
+
+        .boxes { 
+            display: flex; 
+            gap: 24px; 
+        }
+
+        .boxes input { 
+            width: 72px !important;   
+            height: 72px !important;  
+            box-sizing: border-box !important; 
+    
+            flex-shrink: 0 !important; 
+            
+            /* text centering */
+            text-align: center !important; 
+            padding: 0 !important; 
+            
+            font-size: 28px !important;          
+            font-family: 'Book Antiqua', Palatino, serif;
+            border: 2px solid #e0e0e0; 
+            border-radius: 12px;       
+            background: #fafafa;
+            color: #333;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .boxes input:focus {
+            border-color: #333;
+            background: #fff;
+        }
+
+        button { 
+            padding: 12px 32px; 
+            font-size: 14px; 
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer; 
+            background-color: #222; 
+            color: white; 
+            border: none; 
+            border-radius: 8px;
+            font-weight: 600;
+            margin-bottom: 40px;
+            font-family: 'Book Antiqua', Palatino, serif;
+        }
+
+        #Simu { 
+            width: 500px; 
+            height: 500px; 
+            background: #fff; 
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08); 
+            position: relative; 
+            overflow: hidden; 
+        }
+
+        #static-compass {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 85px;
+            height: 85px;
+            z-index: 10;
+            pointer-events: none;
+         }
+
+         #bg-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1; /* Pushes it behind UI and simulator */
+    background: linear-gradient(135deg, #111111, #2a2a35); /* Cool dark gradient */
+}
+
+    </style>
+</head>
+<body>
+    <canvas id="bg-canvas"></canvas>
+    <div class="controls-container">
+        <div class="input-group">
+            <span>Planes Indices</span>
+            <div class="boxes">
+                <input type="text" inputmode="numeric" id="planel" placeholder="h">
+                <input type="text" inputmode="numeric" id="planeh" placeholder="k">
+                <input type="text" inputmode="numeric" id="planek" placeholder="l">
+            </div>
+        </div>
+
+        <div class="input-group">
+            <span>Direction Indices</span>
+            <div class="boxes">
+                <input type="text" inputmode="numeric" id="dirl" placeholder="u">
+                <input type="text" inputmode="numeric" id="dirh" placeholder="v">
+                <input type="text" inputmode="numeric" id="dirk" placeholder="w">
+            </div>
+        </div>
+    </div>
+
+    <button>Simulate</button>
+<div id = "Simu">
+    <svg id="static-compass" viewBox="0 0 100 100">
+            <defs>
+                <marker id="arrowX" markerWidth="6" markerHeight="6" refX="4" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#0000ff" /></marker>
+                <marker id="arrowY" markerWidth="6" markerHeight="6" refX="4" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#ff0000" /></marker>
+                <marker id="arrowZ" markerWidth="6" markerHeight="6" refX="4" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#008000" /></marker>
+            </defs>
+            <line x1="50" y1="50" x2="20" y2="80" stroke="#0000ff" stroke-width="2.5" marker-end="url(#arrowX)" />
+            <text x="5" y="90" fill="#0000ff" font-family="'Book Antiqua', Palatino, serif" font-style="italic" font-weight="bold" font-size="18">x</text>
+
+            <line x1="50" y1="50" x2="90" y2="50" stroke="#ff0000" stroke-width="2.5" marker-end="url(#arrowY)" />
+            <text x="85" y="40" fill="#ff0000" font-family="'Book Antiqua', Palatino, serif" font-style="italic" font-weight="bold" font-size="18">y</text>
+
+            <line x1="50" y1="50" x2="50" y2="10" stroke="#008000" stroke-width="2.5" marker-end="url(#arrowZ)" />
+            <text x="55" y="15" fill="#008000" font-family="'Book Antiqua', Palatino, serif" font-style="italic" font-weight="bold" font-size="18">z</text>
+        </svg>
+</div>
+    <script src="script2.js"></script>
+</body>
+</html>
