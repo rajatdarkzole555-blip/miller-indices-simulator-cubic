@@ -2,7 +2,7 @@
 
 An interactive, web-based 3D simulation tool designed to visualize crystallographic planes and directions within a cubic unit cell. 
 
-You can view the live project here:
+You can view the live project here: https://rajatdarkzole555-blip.github.io/miller-indices-simulator-cubic/
 
 ##  Features
 * **Dynamic Plane Generation:** Accurately renders (hkl) Miller planes, including the mathematical origin-shifting required to correctly display negative indices without rendering errors.
